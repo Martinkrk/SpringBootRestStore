@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Service
 public class ImageService {
-    @Value("${uploadDir}")
+    @Value("${uploadPath}")
     private String uploadPath;
 
     private final ImageRepository imageRepository;
@@ -21,7 +21,7 @@ public class ImageService {
         this.imageRepository = imageRepository;
     }
 
-    public void saveImage(MultipartFile file) {
+    public Image saveImage(MultipartFile file) {
         try {
             String uuid = UUID.randomUUID().toString();
             String originalFilename = uuid + "_" + file.getOriginalFilename();
@@ -42,10 +42,11 @@ public class ImageService {
             image.setPathToOriginal(originalFile.getAbsolutePath());
             image.setPathToSmall(smallFile.getAbsolutePath());
             image.setFilename(file.getOriginalFilename());
-            image.setProduct(product);
             imageRepository.save(image);
+            return image;
         } catch (Exception e) {
             System.out.println(e);
         }
+        return null;
     }
 }

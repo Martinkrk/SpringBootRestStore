@@ -1,13 +1,14 @@
 package ee.ivkhk.springbootreststore.products;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("products")
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -19,8 +20,8 @@ public class ProductController {
     }
 
     @PostMapping("item")
-    public void addProduct(@RequestBody Product product) {
-        productService.add(product);
+    public void addProduct(@RequestBody Product product, @RequestBody MultipartFile file) {
+        productService.add(product, file);
     }
 
     @DeleteMapping("item/{productId}")

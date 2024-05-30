@@ -48,4 +48,14 @@ public class Image {
     public void setPathToSmall(String pathToSmall) {
         this.pathToSmall = pathToSmall;
     }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id=" + id +
+                ", filename='" + filename + '\'' +
+                ", pathToOriginal='" + pathToOriginal + '\'' +
+                ", pathToSmall='" + pathToSmall + '\'' +
+                '}';
+    }
 }

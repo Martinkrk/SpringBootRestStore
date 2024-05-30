@@ -3,17 +3,14 @@ package ee.ivkhk.springbootreststore.products;
 import ee.ivkhk.springbootreststore.images.Image;
 import ee.ivkhk.springbootreststore.images.ImageRepository;
 import ee.ivkhk.springbootreststore.images.ImageService;
-import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ProductService {
@@ -29,12 +26,12 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    @Value("${uploadDir}")
+    @Value("${uploadPath}")
     private String uploadPath;
-    @Value("${temporal}")
-    private String temporal;
+//    @Value("${temporal}")
+//    private String temporal;
 
-    public void add(Product product) {
+    public void add(Product product, MultipartFile file) {
         try {
             if (file == null || file.isEmpty()) {
                 throw new IllegalArgumentException("File is null or empty. Please select a file to upload.");
@@ -46,8 +43,8 @@ public class ProductService {
                 uploadDir.mkdirs();
             }
 
-            // Add image to product and save product
-            product.getImages().add(image);
+            Image image = imageService.saveImage(file);
+            product.setImage(image);
         } catch (Exception e) {
             e.printStackTrace();
         }
