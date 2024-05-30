@@ -1,5 +1,6 @@
 package ee.ivkhk.springbootreststore.products;
 
+import ee.ivkhk.springbootreststore.images.Image;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -10,6 +11,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @OneToOne
+    private Image image;
     private LocalDate created_at;
     private LocalDate updated_at;
 
@@ -35,6 +38,14 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public LocalDate getCreated_at() {
